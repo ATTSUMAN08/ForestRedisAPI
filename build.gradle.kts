@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.foresttech"
-version = "1.3.3"
+version = "1.3.4"
 
 repositories {
     mavenCentral()
@@ -55,4 +55,8 @@ tasks.processResources {
     filesMatching(listOf("plugin.yml", "bungee.yml", "velocity-plugin.json")) {
         expand(props)
     }
+}
+
+tasks.publishToMavenLocal {
+    dependsOn(tasks.shadowJar)
 }
