@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.foresttech"
-version = "1.3.1"
+version = "1.3.2"
 
 repositories {
     mavenCentral()
@@ -20,6 +20,25 @@ dependencies {
     implementation(libs.jedis)
     implementation(libs.gson)
     implementation(libs.snakeYaml)
+}
+
+val targetJavaVersion = 17
+
+java {
+    val javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible) {
+        options.release.set(targetJavaVersion)
+    }
 }
 
 tasks.shadowJar {
