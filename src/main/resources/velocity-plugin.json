@@ -1,0 +1,11 @@
+{
+  "id": "forestredisapi",
+  "name": "ForestRedisAPI",
+  "version": "${version}",
+  "description": "Powerful and simple Redis API by ForestTech",
+  "authors": [
+    "ForestTech"
+  ],
+  "dependencies": [],
+  "main": "cz.foresttech.forestredis.velocity.ForestRedisVelocity"
+}

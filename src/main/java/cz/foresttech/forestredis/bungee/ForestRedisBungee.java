@@ -1,6 +1,5 @@
 package cz.foresttech.forestredis.bungee;
 
-import cz.foresttech.forestredis.bungee.commands.BungeeForestRedisCommand;
 import cz.foresttech.forestredis.bungee.adapter.BungeeConfigAdapter;
 import cz.foresttech.forestredis.bungee.events.RedisMessageReceivedEvent;
 import cz.foresttech.forestredis.shared.*;
@@ -11,14 +10,11 @@ import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
-import java.util.logging.Logger;
-
 /**
  * Bootstrap BungeeCord plugin to setup the {@link RedisManager} using configuration file.
  * Also provides server with reload and version command.
  */
 public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
-
     private static ForestRedisBungee instance;
 
     private ILoggerAdapter loggerAdapter;
@@ -29,7 +25,6 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
         loggerAdapter = new JUtilLoggerAdapter(getLogger());
 
         load();
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new BungeeForestRedisCommand());
     }
 
     @Override

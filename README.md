@@ -1,13 +1,10 @@
 # ForestRedisAPI
-![badge](https://img.shields.io/github/v/release/ForestTechMC/ForestRedisAPI)
-[![badge](https://jitpack.io/v/ForestTechMC/ForestRedisAPI.svg)](https://jitpack.io/#ForestTechMC/ForestRedisAPI)
-![badge](https://img.shields.io/github/downloads/ForestTechMC/ForestRedisAPI/total)
-![badge](https://img.shields.io/github/last-commit/ForestTechMC/ForestRedisAPI)
+![badge](https://img.shields.io/github/v/release/ATTSUMAN08/ForestRedisAPI)
+[![badge](https://jitpack.io/v/ATTSUMAN08/ForestRedisAPI.svg)](https://jitpack.io/#ATTSUMAN08/ForestRedisAPI)
+![badge](https://img.shields.io/github/downloads/ATTSUMAN08/ForestRedisAPI/total)
+![badge](https://img.shields.io/github/last-commit/ATTSUMAN08/ForestRedisAPI)
 ![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord%20%7C%20velocity-lightgrey)
-[![badge](https://img.shields.io/discord/896466173166747650?label=discord)](https://discord.gg/2PpdrfxhD4)
-[![badge](https://img.shields.io/github/license/ForestTechMC/ForestRedisAPI)](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt)
-
-**[JavaDoc 1.2.1](https://foresttechmc.github.io/ForestRedisAPI/1.2.1/)**
+[![badge](https://img.shields.io/github/license/ATTSUMAN08/ForestRedisAPI)](https://github.com/ATTSUMAN08/ForestRedisAPI/blob/master/LICENSE.txt)
 
 Simple Spigot&Bungee Redis API based on Jedis library. ForestRedisAPI allows developers to comfortably maintain
 communication between servers using simple API calls and Events. **Supports both BungeeCord and Spigot servers.**
@@ -27,7 +24,7 @@ Make sure the server has ForestRedisAPI plugin installed. Otherwise, look at **[
 
 ### Add ForestRedisAPI to your project 
 
-[![badge](https://jitpack.io/v/ForestTechMC/ForestRedisAPI.svg)](https://jitpack.io/#ForestTechMC/ForestRedisAPI)
+[![badge](https://jitpack.io/v/ATTSUMAN08/ForestRedisAPI.svg)](https://jitpack.io/#ForestTechMC/ForestRedisAPI)
 
 First, you need to setup the dependency on the ForestRedisAPI. Replace **VERSION** with the version of the release.
 
@@ -44,7 +41,7 @@ First, you need to setup the dependency on the ForestRedisAPI. Replace **VERSION
 
 <dependencies>
     <dependency>
-        <groupId>com.github.ForestTechMC</groupId>
+        <groupId>com.github.ATTSUMAN08</groupId>
         <artifactId>ForestRedisAPI</artifactId>
         <version>VERSION</version>
         <scope>provided</scope>
@@ -65,7 +62,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.ForestTechMC:ForestRedisAPI:VERSION'
+    implementation 'com.github.ATTSUMAN08:ForestRedisAPI:VERSION'
 }
 ```
 </details>

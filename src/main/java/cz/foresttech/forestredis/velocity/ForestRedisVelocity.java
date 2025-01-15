@@ -1,8 +1,6 @@
 package cz.foresttech.forestredis.velocity;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.command.CommandManager;
-import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -18,17 +16,22 @@ import cz.foresttech.forestredis.shared.adapter.ILoggerAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.velocity.adapter.VelocityConfigAdapter;
 import cz.foresttech.forestredis.velocity.adapter.VelocityLoggerAdapter;
-import cz.foresttech.forestredis.velocity.commands.VelocityForestRedisCommand;
 import cz.foresttech.forestredis.velocity.events.RedisMessageReceivedEvent;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
 /**
- * Bootstrap Velocity plugin to setup the {@link RedisManager} using configuration file.
+ * Bootstrap Velocity plugin to set up the {@link RedisManager} using configuration file.
  * Also provides server with reload and version command.
  */
-@Plugin(id="forestredisapi", name="ForestRedisAPI", version = "1.2.1", description = "Powerful and simple Redis API by ForestTech", authors = "ForestTech")
+@Plugin(
+        id = "forestredisapi",
+        name = "ForestRedisAPI",
+        version = "1.0.0",
+        description = "Powerful and simple Redis API by ForestTech",
+        authors = "ForestTech"
+)
 public class ForestRedisVelocity implements IForestRedisPlugin {
 
     private static ForestRedisVelocity instance;
@@ -49,14 +52,6 @@ public class ForestRedisVelocity implements IForestRedisPlugin {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         load();
-
-        CommandManager commandManager = server.getCommandManager();
-        CommandMeta commandMeta = commandManager.metaBuilder("forestredis")
-                .plugin(this)
-                .build();
-
-        VelocityForestRedisCommand commandToRegister = new VelocityForestRedisCommand();
-        commandManager.register(commandMeta, commandToRegister);
     }
 
     @Subscribe

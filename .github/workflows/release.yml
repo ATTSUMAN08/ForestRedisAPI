@@ -1,0 +1,47 @@
+name: Run Gradle Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Execute Gradle build
+        run: ./gradlew shadowJar
+
+      - name: Upload built Plugin JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-jar
+          path: build/libs/*.jar
+
+      - name: Extract version from commit message
+        if: startsWith(github.event.head_commit.message, 'Release')
+        id: version
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: echo "version=${COMMIT_MESSAGE#Release }" >> $GITHUB_OUTPUT
+
+      - name: Release
+        if: startsWith(github.event.head_commit.message, 'Release')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          files: build/libs/*.jar
