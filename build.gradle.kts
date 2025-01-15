@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.foresttech"
-version = "1.3.4"
+version = "1.3.5"
 
 repositories {
     mavenCentral()
@@ -48,6 +48,11 @@ tasks.shadowJar {
     relocate("org.yaml.snakeyaml", "cz.foresttech.forestredis.shade.snakeyaml")
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks.processResources {
     val props = mapOf("version" to version)
     inputs.properties(props)
@@ -57,6 +62,30 @@ tasks.processResources {
     }
 }
 
-tasks.publishToMavenLocal {
-    dependsOn(tasks.shadowJar)
+tasks.compileJava {
+    options.encoding = "UTF-8"
+}
+
+tasks.compileTestJava {
+    options.encoding = "UTF-8"
+}
+
+tasks.javadoc {
+    options.encoding = "UTF-8"
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+            artifact(tasks["shadowJar"])
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["javadocJar"])
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
 }
