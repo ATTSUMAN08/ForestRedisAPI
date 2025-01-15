@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.foresttech"
-version = "1.3.5"
+version = "1.3.6"
 
 repositories {
     mavenCentral()
@@ -72,6 +72,14 @@ tasks.compileTestJava {
 
 tasks.javadoc {
     options.encoding = "UTF-8"
+}
+
+tasks.jar {
+    archiveClassifier.set("raw")
+}
+
+tasks.publishToMavenLocal {
+    dependsOn(tasks.shadowJar)
 }
 
 publishing {
