@@ -7,62 +7,62 @@ import redis.clients.jedis.*;
 import java.util.*;
 
 /**
- * Class for maintaining and handling connection to Redis server.
- * It automatically fires Bungee/Spigot events corresponding to current server type.
+ * Redisサーバーへの接続を維持し、処理するためのクラス。
+ * 自動的に現在のサーバータイプに対応するBungee/Spigotイベントを発生させます。
  * <p>
- * It allows developers to subscribe channels and listen to them using generic EventHandlers.
+ * 開発者がチャンネルを購読し、ジェネリックなEventHandlersを使用してそれらをリッスンすることを可能にします。
  */
 public class RedisManager {
 
     /**
-     * Main instance
+     * メインインスタンス
      */
     private static RedisManager api;
 
     /**
-     * Plugin which the plugin is associated with
+     * プラグインが関連付けられているプラグイン
      */
     private final IForestRedisPlugin plugin;
 
     /**
-     * Configuration object to store credentials
+     * 認証情報を保存するための構成オブジェクト
      */
     private RedisConfiguration redisConfiguration;
 
     /**
-     * Current server's identifier. Shall be unique across your network.
+     * 現在のサーバーの識別子。ネットワーク全体で一意である必要があります。
      */
     private String serverIdentifier;
 
     /**
-     * Set of subscribed channels
+     * 購読されたチャンネルのセット
      */
     private final HashSet<String> channels;
 
     /**
-     * List of current subscriptions
+     * 現在のサブスクリプションのリスト
      */
     private final List<Subscription> subscriptions;
 
     /**
-     * Current JedisPool object
+     * 現在のJedisPoolオブジェクト
      */
     private JedisPool jedisPool;
 
     /**
-     * Whether the processes are in closing state
+     * プロセスが閉じる状態にあるかどうか
      */
     private boolean closing;
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructor method for creating {@link RedisManager} instance. Constructor does not subscribe to the channels,
-     * it just stores the provided data for the future.
+     * {@link RedisManager}インスタンスを作成するためのコンストラクタメソッド。コンストラクタはチャンネルを購読せず、
+     * 将来のために提供されたデータを保存するだけです。
      *
-     * @param plugin             Origin plugin which tries to obtain the instance
-     * @param serverIdentifier   Identifier of the server (e.g. 'Bungee01'). Shall be unique to prevent bugs
-     * @param redisConfiguration {@link RedisConfiguration} object with Redis server credentials
+     * @param plugin             インスタンスを取得しようとする元のプラグイン
+     * @param serverIdentifier   サーバーの識別子（例： 'Bungee01'）。バグを防ぐために一意である必要があります
+     * @param redisConfiguration Redisサーバーの認証情報を含む{@link RedisConfiguration}オブジェクト
      */
     public RedisManager(IForestRedisPlugin plugin, String serverIdentifier, RedisConfiguration redisConfiguration) {
         this.plugin = plugin;
@@ -79,11 +79,11 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Reloads the manager while keeping already subscribed channels if set.
+     * 既に購読されているチャンネルを保持する場合にマネージャーをリロードします。
      *
-     * @param serverIdentifier  New server identifier (if null, already using server id will be used)
-     * @param redisConfiguration    New RedisConfiguration (if null, already using configuration will be used)
-     * @param keepChannels  Keep already subscribed channels
+     * @param serverIdentifier  新しいサーバー識別子（nullの場合、既に使用しているサーバーIDが使用されます）
+     * @param redisConfiguration    新しいRedisConfiguration（nullの場合、既に使用している構成が使用されます）
+     * @param keepChannels  既に購読されているチャンネルを保持する
      */
     public void reload(String serverIdentifier, RedisConfiguration redisConfiguration, boolean keepChannels) {
         this.close();
@@ -109,32 +109,32 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Primary setup method which establishes {@link JedisPool} from the {@link #redisConfiguration}.
-     * Method then automatically subscribes to {@link #channels}.
+     * {@link #redisConfiguration}から{@link JedisPool}を確立するための主要なセットアップメソッド。
+     * メソッドは自動的に{@link #channels}を購読します。
      * <p>
-     * Note! It does not return false if subscription itself was unsuccessful as the calls are asynchronous.
+     * 注意！サブスクリプション自体が失敗した場合でも、呼び出しは非同期で行われるため、falseを返しません。
      *
-     * @param channels Default list channels to listen on (case-sensitive), can be empty and provided afterwards
-     * @return Whether the setup was successful
+     * @param channels デフォルトのリスニングチャンネルのリスト（大文字小文字を区別）、空にして後で提供することもできます
+     * @return セットアップが成功したかどうか
      * @see #subscribe(String...)
      */
     public boolean setup(String... channels) {
-        // Check the RedisConfiguration existence
+        // RedisConfigurationの存在を確認する
         if (this.redisConfiguration == null) {
-            plugin.logger().warning("Cannot establish Jedis Pool! Configuration cannot be null!");
+            plugin.logger().warning("Jedisプールを確立できません！構成がnullであってはなりません！");
             return false;
         }
 
-        // Build the JedisPool
+        // JedisPoolを構築する
         this.jedisPool = this.redisConfiguration.build();
         if (this.jedisPool == null) {
-            plugin.logger().warning("Cannot establish Jedis Pool from the provided configuration!");
+            plugin.logger().warning("提供された構成からJedisプールを確立できません！");
             return false;
         }
 
-        this.plugin.logger().info("Jedis Pool established with server identifier '" + this.serverIdentifier + "'!");
+        this.plugin.logger().info("サーバー識別子 '" + this.serverIdentifier + "' でJedisプールが確立されました！");
 
-        // If channels were provided, add them to the list and subscribe to them
+        // チャンネルが提供された場合、それらをリストに追加し、購読する
         if (channels != null && channels.length > 0) {
             this.channels.addAll(Set.of(channels));
 
@@ -149,9 +149,9 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Unsubscribes the channels given.
+     * 指定されたチャンネルを購読解除します。
      *
-     * @param channels Names of the channels to unsubscribe (case-sensitive)
+     * @param channels 購読解除するチャンネルの名前（大文字小文字を区別）
      */
     public void unsubscribe(String... channels) {
         if (this.closing) {
@@ -166,9 +166,9 @@ public class RedisManager {
             for (Subscription sub : this.subscriptions) {
                 sub.unsubscribe(channels);
             }
-            this.plugin.logger().info("Successfully unsubscribed channels: " + Arrays.toString(channels) + "!");
+            this.plugin.logger().info("チャンネルの購読解除に成功しました: " + Arrays.toString(channels) + "!");
         } catch (Exception ex) {
-            this.plugin.logger().warning("An error occurred while unsubscribing channels: " + Arrays.toString(channels) + "!");
+            this.plugin.logger().warning("チャンネルの購読解除中にエラーが発生しました: " + Arrays.toString(channels) + "!");
             return;
         }
 
@@ -178,11 +178,11 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Subscribes to the provided channels if they're not subscribed already. Corresponding Events
-     * will be thrown only if the received message is sent to subscribed channels.
+     * 既に購読されていない場合、提供されたチャンネルを購読します。対応するイベントは、
+     * 受信したメッセージが購読されたチャンネルに送信された場合にのみ発生します。
      *
-     * @param channels Names of the channels to subscribe (case-sensitive)
-     * @return Whether at least one of the channel was successfully subscribed
+     * @param channels 購読するチャンネルの名前（大文字小文字を区別）
+     * @return 少なくとも1つのチャンネルが正常に購読されたかどうか
      */
     public boolean subscribe(String... channels) {
         if (this.closing) {
@@ -202,7 +202,7 @@ public class RedisManager {
             actualChannelsToAdd.add(channel);
         }
 
-        // Check if user provided any actual channel to subscribe
+        // ユーザーが実際に購読するチャンネルを提供したかどうかを確認する
         if (actualChannelsToAdd.isEmpty()) {
             return false;
         }
@@ -219,12 +219,12 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Publishes the object to the provided channel. Also handles server identification.
-     * DO NOT USE this to publish simple {@link String} message.
+     * 提供されたチャンネルにオブジェクトを公開します。サーバー識別も処理します。
+     * 単純な{@link String}メッセージを公開するためにこれを使用しないでください。
      *
-     * @param targetChannel   Channel to be published into (case-sensitive)
-     * @param objectToPublish Object to be published
-     * @return Returns 'false' if the message cannot be converted to JSON or in closing state. Returns 'true' if the process was successful
+     * @param targetChannel   公開するチャンネル（大文字小文字を区別）
+     * @param objectToPublish 公開するオブジェクト
+     * @return メッセージがJSONに変換できない場合や閉じる状態にある場合は 'false' を返します。プロセスが成功した場合は 'true' を返します
      * @see #publishMessage(String, String)
      */
     public boolean publishObject(String targetChannel, Object objectToPublish) {
@@ -235,12 +235,12 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Publishes the message to the provided channel. Also handles server identification.
-     * This method is not recommended for publishing serialized objects. To publish objects:
+     * 提供されたチャンネルにメッセージを公開します。サーバー識別も処理します。
+     * このメソッドはシリアル化されたオブジェクトを公開するためには推奨されません。オブジェクトを公開するには：
      *
-     * @param targetChannel    Channel to be published into (case-sensitive)
-     * @param messageToPublish The message to be published
-     * @return Returns 'false' if the message cannot be converted to JSON or in closing state. Returns 'true' if the process was successful.
+     * @param targetChannel    公開するチャンネル（大文字小文字を区別）
+     * @param messageToPublish 公開するメッセージ
+     * @return メッセージがJSONに変換できない場合や閉じる状態にある場合は 'false' を返します。プロセスが成功した場合は 'true' を返します。
      * @see #publishObject(String, Object)
      */
     public boolean publishMessage(String targetChannel, String messageToPublish) {
@@ -251,11 +251,11 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Internal method for publishing {@link MessageTransferObject} objects.
+     * {@link MessageTransferObject}オブジェクトを公開するための内部メソッド。
      *
-     * @param targetChannel         Channel to be published into
-     * @param messageTransferObject The {@link MessageTransferObject} object to be published
-     * @return Whether the provided {@link MessageTransferObject} makes sense
+     * @param targetChannel         公開するチャンネル
+     * @param messageTransferObject 公開する{@link MessageTransferObject}オブジェクト
+     * @return 提供された{@link MessageTransferObject}が意味をなすかどうか
      */
     private boolean executePublish(String targetChannel, MessageTransferObject messageTransferObject) {
         if (this.closing) {
@@ -275,7 +275,7 @@ public class RedisManager {
             try (Jedis jedis = this.jedisPool.getResource()) {
                 jedis.publish(targetChannel, messageJson);
             } catch (Exception e) {
-                RedisManager.this.plugin.logger().warning("Could not send message to the Redis server!");
+                RedisManager.this.plugin.logger().warning("Redisサーバーにメッセージを送信できませんでした！");
             }
         });
 
@@ -285,7 +285,7 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Closes the Redis connection and unsubscribes to all channels.
+     * Redis接続を閉じ、すべてのチャンネルの購読を解除します。
      */
     public void close() {
         if (this.closing) {
@@ -311,9 +311,9 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the current server identifier. It is used as sender name in events.
+     * 現在のサーバー識別子を返します。イベントの送信者名として使用されます。
      *
-     * @return Server identifier
+     * @return サーバー識別子
      */
     public String getServerIdentifier() {
         return serverIdentifier;
@@ -322,10 +322,10 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns whether the channel is subscribed or not.
+     * チャンネルが購読されているかどうかを返します。
      *
-     * @param channel Channel's name to check (case-sensitive).
-     * @return Whether the channel is subscribed or not
+     * @param channel 確認するチャンネルの名前（大文字小文字を区別）。
+     * @return チャンネルが購読されているかどうか
      */
     public boolean isSubscribed(String channel) {
         return this.channels.contains(channel);
@@ -340,9 +340,9 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns list of all subscribed channels.
+     * すべての購読されたチャンネルのリストを返します。
      *
-     * @return List of all subscribed channels (case-sensitive)
+     * @return すべての購読されたチャンネルのリスト（大文字小文字を区別）
      */
     public Set<String> getSubscribedChannels() {
         return channels;
@@ -351,7 +351,7 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Private subscription class used for handling PubSub connection.
+     * PubSub接続を処理するために使用されるプライベートサブスクリプションクラス。
      *
      * @see #subscribe(String...)
      */
@@ -370,30 +370,30 @@ public class RedisManager {
             while (!RedisManager.this.closing && !Thread.interrupted() && !RedisManager.this.jedisPool.isClosed()) {
                 try (Jedis jedis = RedisManager.this.jedisPool.getResource()) {
                     if (firstTry) {
-                        RedisManager.this.plugin.logger().info("Redis pubsub connection established!");
+                        RedisManager.this.plugin.logger().info("Redis pubsub接続が確立されました！");
                         firstTry = false;
                     } else {
-                        RedisManager.this.plugin.logger().info("Redis pubsub connection re-established!");
+                        RedisManager.this.plugin.logger().info("Redis pubsub接続が再確立されました！");
                     }
 
                     try {
-                        jedis.subscribe(this, channels); // blocking call
-                        RedisManager.this.plugin.logger().info("Successfully subscribed channels: " + Arrays.toString(channels) + "!");
+                        jedis.subscribe(this, channels); // ブロッキング呼び出し
+                        RedisManager.this.plugin.logger().info("チャンネルの購読に成功しました: " + Arrays.toString(channels) + "!");
                     } catch (Exception e) {
-                        RedisManager.this.plugin.logger().warning("Could not subscribe!");
+                        RedisManager.this.plugin.logger().warning("購読できませんでした！");
                     }
                 } catch (Exception e) {
                     if (RedisManager.this.closing) {
                         return;
                     }
 
-                    RedisManager.this.plugin.logger().warning("Redis pubsub connection dropped, trying to re-open the connection!");
+                    RedisManager.this.plugin.logger().warning("Redis pubsub接続が切断されました。接続を再開しようとしています！");
                     try {
                         unsubscribe();
                     } catch (Exception ignored) {
                     }
 
-                    // Sleep for 5 seconds to prevent massive spam in console
+                    // コンソールの大量のスパムを防ぐために5秒間スリープする
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException ie) {
@@ -411,7 +411,7 @@ public class RedisManager {
 
             MessageTransferObject messageTransferObject = MessageTransferObject.fromJson(message);
             if (messageTransferObject == null) {
-                RedisManager.this.plugin.logger().warning("Cannot retrieve message object sent to channel '" + channel + "'! Message: '" + message + "'");
+                RedisManager.this.plugin.logger().warning("チャンネル '" + channel + "' に送信されたメッセージオブジェクトを取得できません！メッセージ: '" + message + "'");
                 return;
             }
 
@@ -422,12 +422,11 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Initialization method for creating {@link RedisManager} main instance. This won't start any
-     * connection or subscription.
+     * {@link RedisManager}メインインスタンスを作成するための初期化メソッド。これにより、接続や購読は開始されません。
      *
-     * @param plugin             Origin plugin which tries to obtain the instance
-     * @param serverIdentifier   Identifier of the server (e.g. 'Bungee01'). Shall be unique to prevent bugs
-     * @param redisConfiguration {@link RedisConfiguration} object with Redis server credentials
+     * @param plugin             インスタンスを取得しようとする元のプラグイン
+     * @param serverIdentifier   サーバーの識別子（例： 'Bungee01'）。バグを防ぐために一意である必要があります
+     * @param redisConfiguration Redisサーバーの認証情報を含む{@link RedisConfiguration}オブジェクト
      */
     public static void init(IForestRedisPlugin plugin, String serverIdentifier, RedisConfiguration redisConfiguration) {
         api = new RedisManager(plugin, serverIdentifier, redisConfiguration);
@@ -436,10 +435,9 @@ public class RedisManager {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Gets the main instance of {@link RedisManager} object. This is the only
-     * recommended approach to access the API methods.
+     * {@link RedisManager}オブジェクトのメインインスタンスを取得します。これがAPIメソッドにアクセスするための唯一の推奨アプローチです。
      *
-     * @return Main instance of {@link RedisManager}
+     * @return {@link RedisManager}のメインインスタンス
      */
     public static RedisManager getAPI() {
         return api;

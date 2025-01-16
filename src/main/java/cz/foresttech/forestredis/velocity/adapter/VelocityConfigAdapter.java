@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of {@link IConfigurationAdapter} for Velocity version
+ * Velocityバージョンの{@link IConfigurationAdapter}の実装
  */
 public class VelocityConfigAdapter implements IConfigurationAdapter {
 
@@ -26,9 +26,9 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
     private YamlConfigurationLoader loader;
 
     /**
-     * Constructs the instance of adapter.
+     * アダプタのインスタンスを構築します。
      *
-     * @param plugin {@link ForestRedisVelocity} instance
+     * @param plugin {@link ForestRedisVelocity}インスタンス
      */
     public VelocityConfigAdapter(ForestRedisVelocity plugin) {
         this.plugin = plugin;
@@ -40,7 +40,7 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
             try {
                 Files.createDirectory(plugin.getDataDirectory());
             } catch (IOException e) {
-                plugin.logger().warning("Cannot create plugin directory! This proxy won't process any Redis communication!");
+                plugin.logger().warning("プラグインディレクトリを作成できません！このプロキシはRedis通信を処理しません！");
                 return;
             }
         }
@@ -50,7 +50,7 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
             try (InputStream stream = plugin.getClass().getClassLoader().getResourceAsStream(fileName + ".yml")) {
                 Files.copy(stream, configPath);
             } catch (IOException e) {
-                plugin.logger().warning("Cannot create config.yml! This proxy won't process any Redis communication!");
+                plugin.logger().warning("config.ymlを作成できません！このプロキシはRedis通信を処理しません！");
                 return;
             }
         }
@@ -69,7 +69,7 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
         try {
             configuration = loader.load();
         } catch (ConfigurateException e) {
-            plugin.logger().warning("Cannot load config.yml! This proxy won't process any Redis communication!");
+            plugin.logger().warning("config.ymlを読み込めません！このプロキシはRedis通信を処理しません！");
         }
     }
 

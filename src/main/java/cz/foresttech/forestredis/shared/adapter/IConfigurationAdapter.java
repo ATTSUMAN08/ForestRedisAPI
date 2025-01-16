@@ -3,75 +3,75 @@ package cz.foresttech.forestredis.shared.adapter;
 import java.util.List;
 
 /**
- * ConfigurationAdapter interface which handles differences between BungeeCord and Spigot in configuration structure.
+ * ConfigurationAdapterインターフェースは、BungeeCordとSpigotの構成構造の違いを処理します。
  */
 public interface IConfigurationAdapter {
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Setups the configuration file by provided name.
+     * 指定された名前で構成ファイルを設定します。
      *
-     * @param fileName Name of the file to setup
+     * @param fileName 設定するファイルの名前
      */
     void setup(String fileName);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Checks if the configuration is setup
+     * 構成が設定されているかどうかを確認します。
      *
-     * @return If the configuration is setup
+     * @return 構成が設定されているかどうか
      */
     boolean isSetup();
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Loads the configuration
+     * 構成を読み込みます。
      */
     void loadConfiguration();
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the String value from the configuration.
+     * 構成から文字列値を返します。
      *
-     * @param path Path in the configuration.
-     * @param def  Default value if the path is not set.
-     * @return String value from the configuration. Returns "def" if path is not available.
+     * @param path 構成内のパス
+     * @param def  パスが設定されていない場合のデフォルト値
+     * @return 構成からの文字列値。パスが利用できない場合は "def" を返します。
      */
     String getString(String path, String def);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the int value from the configuration.
+     * 構成からint値を返します。
      *
-     * @param path Path in the configuration.
-     * @param def  Default value if the path is not set.
-     * @return int value from the configuration. Returns "def" if path is not available.
+     * @param path 構成内のパス
+     * @param def  パスが設定されていない場合のデフォルト値
+     * @return 構成からのint値。パスが利用できない場合は "def" を返します。
      */
     int getInt(String path, int def);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the boolean value from the configuration.
+     * 構成からboolean値を返します。
      *
-     * @param path Path in the configuration.
-     * @param def  Default value if the path is not set.
-     * @return boolean value from the configuration. Returns "def" if path is not available.
+     * @param path 構成内のパス
+     * @param def  パスが設定されていない場合のデフォルト値
+     * @return 構成からのboolean値。パスが利用できない場合は "def" を返します。
      */
     boolean getBoolean(String path, boolean def);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the list of Strings from the configuration.
+     * 構成から文字列のリストを返します。
      *
-     * @param path Path in the configuration.
-     * @return list of strings from the configuration. Returns empty list if path is not available.
+     * @param path 構成内のパス
+     * @return 構成からの文字列のリスト。パスが利用できない場合は空のリストを返します。
      */
     List<String> getStringList(String path);
 

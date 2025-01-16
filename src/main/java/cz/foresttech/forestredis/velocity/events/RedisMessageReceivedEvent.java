@@ -5,25 +5,25 @@ import cz.foresttech.forestredis.shared.events.IRedisMessageReceivedEvent;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 
 /**
- * Velocity Event class used when message was received from subscribed channel.
+ * 購読されたチャンネルからメッセージが受信されたときに使用されるVelocityイベントクラス。
  */
 public class RedisMessageReceivedEvent implements IRedisMessageReceivedEvent {
 
     /**
-     * Name of the channel the message came from
+     * メッセージが送信されたチャンネルの名前
      */
     private final String channel;
 
     /**
-     * MessageTransferObject containing message's data
+     * メッセージのデータを含むMessageTransferObject
      */
     private final MessageTransferObject messageTransferObject;
 
     /**
-     * Constructs the instance of the Event
+     * イベントのインスタンスを構築します
      *
-     * @param channel   Channel in which was the message published
-     * @param messageTransferObject {@link MessageTransferObject} object containing data about published message
+     * @param channel   メッセージが公開されたチャンネル
+     * @param messageTransferObject 公開されたメッセージに関するデータを含む{@link MessageTransferObject}オブジェクト
      */
     public RedisMessageReceivedEvent(String channel, MessageTransferObject messageTransferObject) {
         this.channel = channel;

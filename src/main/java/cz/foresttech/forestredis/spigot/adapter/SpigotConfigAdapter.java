@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * Implementation of {@link IConfigurationAdapter} for Spigot version
+ * Spigotバージョンの{@link IConfigurationAdapter}の実装
  */
 public class SpigotConfigAdapter implements IConfigurationAdapter {
 
@@ -22,9 +22,9 @@ public class SpigotConfigAdapter implements IConfigurationAdapter {
     private FileConfiguration configuration;
 
     /**
-     * Constructs the instance of adapter.
+     * アダプタのインスタンスを構築します。
      *
-     * @param plugin {@link JavaPlugin} instance
+     * @param plugin {@link JavaPlugin}インスタンス
      */
     public SpigotConfigAdapter(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -40,7 +40,7 @@ public class SpigotConfigAdapter implements IConfigurationAdapter {
 
         file = new File(plugin.getDataFolder() + "/" + fileName + ".yml");
         if (!file.exists()) {
-            plugin.getLogger().info("config.yml does not exist! Creating a new one!");
+            plugin.getLogger().info("config.ymlが存在しません！新しいものを作成します！");
             plugin.saveResource(fileName + ".yml", false);
         }
 
@@ -62,7 +62,7 @@ public class SpigotConfigAdapter implements IConfigurationAdapter {
                 configuration.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
             }
         } catch (Exception ex) {
-            plugin.getLogger().warning("Cannot load config.yml! This server won't process any Redis communication!");
+            plugin.getLogger().warning("config.ymlを読み込めません！このサーバーはRedis通信を処理しません！");
             configuration = null;
         }
     }

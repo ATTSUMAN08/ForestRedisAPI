@@ -11,8 +11,8 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
 /**
- * Bootstrap BungeeCord plugin to setup the {@link RedisManager} using configuration file.
- * Also provides server with reload and version command.
+ * {@link RedisManager}を設定するためのBootstrap BungeeCordプラグイン。
+ * 設定ファイルを使用します。また、サーバーにリロードとバージョンコマンドを提供します。
  */
 public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
     private static ForestRedisBungee instance;
@@ -29,7 +29,7 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
 
     @Override
     public void onDisable() {
-        // Close the RedisManager
+        // RedisManagerを閉じる
         if (RedisManager.getAPI() == null) {
             return;
         }
@@ -59,9 +59,9 @@ public class ForestRedisBungee extends Plugin implements IForestRedisPlugin {
     }
 
     /**
-     * Obtains the instance of the plugin
+     * プラグインのインスタンスを取得します
      *
-     * @return  Instance of {@link ForestRedisBungee}
+     * @return {@link ForestRedisBungee}のインスタンス
      */
     public static ForestRedisBungee getInstance() {
         return instance;

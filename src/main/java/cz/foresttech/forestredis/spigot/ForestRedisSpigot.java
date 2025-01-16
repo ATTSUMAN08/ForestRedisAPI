@@ -12,8 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Bootstrap Spigot plugin to setup the {@link RedisManager} using configuration file.
- * Also provides server with reload and version command.
+ * 設定ファイルを使用して{@link RedisManager}を設定するためのBootstrap Spigotプラグイン。
+ * また、サーバーにリロードとバージョンコマンドを提供します。
  */
 public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin {
 
@@ -65,9 +65,9 @@ public class ForestRedisSpigot extends JavaPlugin implements IForestRedisPlugin 
     }
 
     /**
-     * Obtains the instance of the plugin
+     * プラグインのインスタンスを取得します
      *
-     * @return Instance of {@link ForestRedisSpigot}
+     * @return {@link ForestRedisSpigot}のインスタンス
      */
     public static ForestRedisSpigot getInstance() {
         return instance;

@@ -2,10 +2,19 @@ package cz.foresttech.forestredis.shared.adapter;
 
 import java.util.logging.Logger;
 
+/**
+ * JUtilLoggerAdapterクラスは、ILoggerAdapterインターフェースの実装です。
+ * JavaのLoggerを使用してログメッセージを記録します。
+ */
 public class JUtilLoggerAdapter implements ILoggerAdapter {
 
     private final Logger logger;
 
+    /**
+     * JUtilLoggerAdapterのインスタンスを構築します。
+     *
+     * @param logger 使用するLoggerインスタンス
+     */
     public JUtilLoggerAdapter(Logger logger) {
         this.logger = logger;
     }
