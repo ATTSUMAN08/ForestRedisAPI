@@ -1,9 +1,9 @@
 # ForestRedisAPI
-![badge](https://img.shields.io/github/v/release/ATTSUMAN08/ForestRedisAPI)  
-[![badge](https://jitpack.io/v/ATTSUMAN08/ForestRedisAPI.svg)](https://jitpack.io/#ATTSUMAN08/ForestRedisAPI)  
-![badge](https://img.shields.io/github/downloads/ATTSUMAN08/ForestRedisAPI/total)  
-![badge](https://img.shields.io/github/last-commit/ATTSUMAN08/ForestRedisAPI)  
-![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord%20%7C%20velocity-lightgrey)  
+![badge](https://img.shields.io/github/v/release/ATTSUMAN08/ForestRedisAPI)
+[![badge](https://jitpack.io/v/ATTSUMAN08/ForestRedisAPI.svg)](https://jitpack.io/#ATTSUMAN08/ForestRedisAPI)
+![badge](https://img.shields.io/github/downloads/ATTSUMAN08/ForestRedisAPI/total)
+![badge](https://img.shields.io/github/last-commit/ATTSUMAN08/ForestRedisAPI)
+![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord%20%7C%20velocity-lightgrey)
 [![badge](https://img.shields.io/github/license/ATTSUMAN08/ForestRedisAPI)](https://github.com/ATTSUMAN08/ForestRedisAPI/blob/master/LICENSE.txt)
 
 Jedisライブラリに基づいたシンプルなSpigot&Bungee用Redis APIです。ForestRedisAPIは、開発者が簡単なAPI呼び出しやイベントを使用して、サーバー間の通信を快適に維持することを可能にします。**BungeeCordおよびSpigotサーバーの両方をサポートしています。**
@@ -14,12 +14,11 @@ Jedisライブラリに基づいたシンプルなSpigot&Bungee用Redis APIで�
 * [チャンネルの購読](#チャンネルの購読)
 * [メッセージ/オブジェクトの送信](#メッセージオブジェクトの送信)
 * [イベントと受信メッセージ](#イベントと受信メッセージ)
-* [単独での使用](#単独での使用)
 * [ライセンス](#ライセンス)
 
 ## 開始手順
 
-サーバーにForestRedisAPIプラグインがインストールされていることを確認してください。それ以外の場合は、**[単独での使用](#単独での使用)**を参照してください。
+サーバーにForestRedisAPIプラグインがインストールされていることを確認してください。
 
 ### ForestRedisAPIをプロジェクトに追加する
 
@@ -161,72 +160,5 @@ public class MyListener implements Listener {
 }
 ```
 
-## 単独での使用
-
-ForestRedisAPIを単独のライブラリとして使用できます。その場合、RedisManagerを初期化し、必要なデータを提供する必要があります。
-
-ただし、このアプローチは**十分な理解がない限り推奨されません！**
-
-<details>
-    <summary>プラグインのメインクラスの例</summary>
-
-```java
-import cz.foresttech.forestredis.shared.RedisManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class MyExamplePlugin extends JavaPlugin {
-
-    private RedisManager redisManager;
-    
-    @Override
-    public void onEnable() {
-        // ...
-        loadRedis();
-        // ...
-    }
-
-    @Override
-    public void onDisable() {
-        //...
-        // RedisManagerを閉じます
-        if (redisManager != null) {
-            redisManager.close();
-        }
-        //...
-    }
-
-    public void loadRedis() {
-        // RedisConfigurationオブジェクトを作成します
-        RedisConfiguration redisConfiguration = new RedisConfiguration(
-                "localhost", //ホスト名
-                6379, //ポート
-                null, //ユーザー名（存在しない場合はnull）
-                null, //パスワード（存在しない場合はnull）
-                false //SSL
-        );
-
-        // RedisManagerインスタンス（シングルトン）を初期化します
-        // 初期化後は、RedisManager#getAPI()を使用してインスタンスを取得します
-        redisManager = new RedisManager(this, "MyServer", redisConfiguration);
-        
-        // 接続を設定します
-        redisManager.setup(/*チャンネル*/);
-
-        // #getAPI()呼び出しを使用してシングルトンインスタンスを取得できます
-        redisManager.subscribe("MyChannel1");
-    }
-
-    public void reloadRedis() {
-        // RedisManagerオブジェクトでリロード関数を呼び出します。
-        // "null"に設定した場合、既存の値が使用されます。
-        // この場合、Redisの設定は保持されます。
-        redisManager.reload("MyNewServerName", null, true);
-    }
-}
-```
-</details>
-
 ## ライセンス
 ForestRedisAPIはMITライセンスの下でライセンスされています。詳細は[`LICENSE.txt`](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt)をご覧ください。
-
----
