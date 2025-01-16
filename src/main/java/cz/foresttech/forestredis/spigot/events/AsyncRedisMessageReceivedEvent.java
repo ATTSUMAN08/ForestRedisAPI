@@ -8,9 +8,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Asynchronous Spigot Event class used when message was received from subscribed channel.
+ * 購読されたチャンネルからメッセージが受信されたときに使用される非同期のSpigotイベントクラス。
  * <p>
- * Data can be changed, so sync Spigot Event will be triggered with updated data
+ * データは変更可能であり、更新されたデータで同期Spigotイベントがトリガーされます。
  */
 public class AsyncRedisMessageReceivedEvent extends Event implements IRedisMessageReceivedEvent, Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
@@ -18,20 +18,20 @@ public class AsyncRedisMessageReceivedEvent extends Event implements IRedisMessa
     private boolean cancelled;
 
     /**
-     * Name of the channel the message came from
+     * メッセージが送信されたチャンネルの名前
      */
     private String channel;
 
     /**
-     * MessageTransferObject containing message's data
+     * メッセージのデータを含むMessageTransferObject
      */
     private MessageTransferObject messageTransferObject;
 
     /**
-     * Constructs the instance of the Event
+     * イベントのインスタンスを構築します
      *
-     * @param channel   Channel in which was the message published
-     * @param messageTransferObject {@link MessageTransferObject} object containing data about published message
+     * @param channel   メッセージが公開されたチャンネル
+     * @param messageTransferObject 公開されたメッセージに関するデータを含む{@link MessageTransferObject}オブジェクト
      */
     public AsyncRedisMessageReceivedEvent(String channel, MessageTransferObject messageTransferObject) {
         super(true);

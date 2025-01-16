@@ -8,44 +8,44 @@ import cz.foresttech.forestredis.shared.models.RedisConfiguration;
 import java.util.List;
 
 /**
- * Generic plugin interface. It is used to handle similar functions across Bungee and Spigot server engines.
+ * 一般的なプラグインインターフェース。BungeeとSpigotのサーバーエンジン間で同様の機能を処理するために使用されます。
  */
 public interface IForestRedisPlugin {
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Runs asynchronous task
+     * 非同期タスクを実行します
      *
-     * @param task Task to be run async
+     * @param task 非同期で実行するタスク
      */
     void runAsync(Runnable task);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Calls the corresponding events when message was received
+     * メッセージが受信されたときに対応するイベントを呼び出します
      *
-     * @param channel               Channel which received the message
-     * @param messageTransferObject {@link MessageTransferObject} which was received
+     * @param channel               メッセージを受信したチャンネル
+     * @param messageTransferObject 受信した{@link MessageTransferObject}
      */
     void onMessageReceived(String channel, MessageTransferObject messageTransferObject);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns logger object
+     * ロガーオブジェクトを返します
      *
-     * @return Logger instance of the current implementation
+     * @return 現在の実装のロガーインスタンス
      */
     ILoggerAdapter logger();
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Returns the {@link IConfigurationAdapter} implementation
+     * {@link IConfigurationAdapter}の実装を返します
      *
-     * @return Implementation of {@link IConfigurationAdapter}
+     * @return {@link IConfigurationAdapter}の実装
      */
     default IConfigurationAdapter getConfigAdapter() {
         return null;
@@ -54,30 +54,30 @@ public interface IForestRedisPlugin {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Loading RedisManager from config method
+     * configからRedisManagerを読み込むメソッド
      */
     default void load() {
-        // Close if RedisManager is already initialized
+        // RedisManagerが既に初期化されている場合は閉じる
         if (RedisManager.getAPI() != null) {
             RedisManager.getAPI().close();
         }
 
-        // Load the configuration file
+        // 設定ファイルを読み込む
         IConfigurationAdapter configAdapter = this.getConfigAdapter();
         if (!configAdapter.isSetup()) {
             return;
         }
 
-        this.logger().info("config.yml loaded successfully!");
+        this.logger().info("config.ymlが正常に読み込まれました！");
 
-        // Load server identifier
+        // サーバー識別子を読み込む
         String serverIdentifier = configAdapter.getString("serverIdentifier", null);
         if (serverIdentifier == null) {
             serverIdentifier = "MySuperServer1";
-            this.logger().info("Cannot load 'serverIdentifier' from config.yml! Using 'MySuperServer1'!");
+            this.logger().info("config.ymlから'serverIdentifier'を読み込めません！'MySuperServer1'を使用します！");
         }
 
-        // Construct RedisConfiguration
+        // RedisConfigurationを構築する
         RedisConfiguration redisConfiguration = new RedisConfiguration(
                 configAdapter.getString("redis.hostname", "localhost"),
                 configAdapter.getInt("redis.port", 6379),
@@ -87,10 +87,10 @@ public interface IForestRedisPlugin {
         );
 
 
-        // Setup the RedisManager
+        // RedisManagerを設定する
         List<String> channels = configAdapter.getStringList("channels");
 
-        // Initialize RedisManager object
+        // RedisManagerオブジェクトを初期化する
         if (RedisManager.getAPI() == null) {
             RedisManager.init(this, serverIdentifier, redisConfiguration);
             if (channels.isEmpty()) {
@@ -103,7 +103,7 @@ public interface IForestRedisPlugin {
             return;
         }
 
-        // Reload the RedisManager if already initialized
+        // 既に初期化されている場合はRedisManagerをリロードする
         RedisManager.getAPI().reload(serverIdentifier, redisConfiguration, true);
         if (!channels.isEmpty()) {
             String[] channelsArray = channels.toArray(new String[0]);

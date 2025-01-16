@@ -22,8 +22,8 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 
 /**
- * Bootstrap Velocity plugin to set up the {@link RedisManager} using configuration file.
- * Also provides server with reload and version command.
+ * 設定ファイルを使用して{@link RedisManager}を設定するためのBootstrap Velocityプラグイン。
+ * また、サーバーにリロードとバージョンコマンドを提供します。
  */
 @Plugin(
         id = "forestredisapi",
@@ -56,7 +56,7 @@ public class ForestRedisVelocity implements IForestRedisPlugin {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        // Close the RedisManager
+        // RedisManagerを閉じる
         if (RedisManager.getAPI() == null) {
             return;
         }
@@ -95,9 +95,9 @@ public class ForestRedisVelocity implements IForestRedisPlugin {
     }
 
     /**
-     * Obtains the instance of the plugin
+     * プラグインのインスタンスを取得します
      *
-     * @return  Instance of {@link ForestRedisVelocity}
+     * @return {@link ForestRedisVelocity}のインスタンス
      */
     public static ForestRedisVelocity getInstance() {
         return instance;

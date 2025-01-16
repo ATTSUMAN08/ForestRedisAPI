@@ -1,64 +1,64 @@
 package cz.foresttech.forestredis.shared.events;
 
 /**
- * Redis incoming message Event interface. Used for handling differences between Spigot and Bungee Event API.
+ * Redisの受信メッセージイベントインターフェース。SpigotとBungeeのイベントAPIの違いを処理するために使用されます。
  */
 public interface IRedisMessageReceivedEvent {
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains the sender's identifier
+     * 送信者の識別子を取得します。
      *
-     * @return  Sender server's name
+     * @return 送信サーバーの名前
      */
     String getSenderIdentifier();
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains the name of the channel message came from
+     * メッセージが送信されたチャンネルの名前を取得します。
      *
-     * @return  Name of the incoming channel
+     * @return 受信チャンネルの名前
      */
     String getChannel();
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains message received
+     * 受信したメッセージを取得します。
      *
-     * @return  Message received
+     * @return 受信したメッセージ
      */
     String getMessage();
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains message timestamp
+     * メッセージのタイムスタンプを取得します。
      *
-     * @return  TimeStamp of the message
+     * @return メッセージのタイムスタンプ
      */
     long getTimeStamp();
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains object from received message by provided type
+     * 受信したメッセージから指定された型のオブジェクトを取得します。
      *
-     * @param objectClass   Object class
-     * @param <T>   Object type
-     * @return  Parsed object (null if it cannot be parsed)
+     * @param objectClass オブジェクトのクラス
+     * @param <T> オブジェクトの型
+     * @return 解析されたオブジェクト（解析できない場合はnull）
      */
-    @SuppressWarnings("Make sure the recieved message can really be converted to provided type!")
+    @SuppressWarnings("受信したメッセージが指定された型に変換できることを確認してください！")
     <T> T getMessageObject(Class<T> objectClass);
 
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Checks if the sender server has the same identifier as current server
+     * 送信サーバーが現在のサーバーと同じ識別子を持っているかどうかを確認します。
      *
-     * @return  Whether the message was sent by this server
+     * @return メッセージがこのサーバーから送信されたかどうか
      */
     boolean isSelfSender();
 

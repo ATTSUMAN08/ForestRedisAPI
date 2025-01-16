@@ -5,7 +5,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
 
 /**
- * RedisConfiguration object stores Redis server's credentials. Can be used to create JedisPool instance.
+ * RedisConfigurationオブジェクトは、Redisサーバーの認証情報を保存します。JedisPoolインスタンスを作成するために使用できます。
  */
 public class RedisConfiguration {
 
@@ -18,13 +18,13 @@ public class RedisConfiguration {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructs the instance of the object
+     * オブジェクトのインスタンスを構築します
      *
-     * @param hostName Hostname of the Redis server
-     * @param port     Port of the Redis server
-     * @param username Username used to connect to Redis server (can be null)
-     * @param password Password used to connect to Redis server (can be null)
-     * @param ssl      Whether to make the connection with SSL
+     * @param hostName Redisサーバーのホスト名
+     * @param port     Redisサーバーのポート
+     * @param username Redisサーバーに接続するために使用するユーザー名（nullも可能）
+     * @param password Redisサーバーに接続するために使用するパスワード（nullも可能）
+     * @param ssl      SSLで接続するかどうか
      */
     public RedisConfiguration(String hostName, int port, String username, String password, boolean ssl) {
         this.hostName = hostName;
@@ -37,12 +37,12 @@ public class RedisConfiguration {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Creates {@link JedisPool} instance using the stored values.
+     * 保存された値を使用して{@link JedisPool}インスタンスを作成します。
      *
-     * @return {@link JedisPool} object obtained using the values stored inside this object.
+     * @return このオブジェクト内の値を使用して取得された{@link JedisPool}オブジェクト。
      */
     public JedisPool build() {
-        // Hostname must exist!
+        // ホスト名は必須です！
         if (hostName == null) {
             return null;
         }
