@@ -1,4 +1,4 @@
-# Redis server credentials. If no password/username is required, type "null"
+# Redisサーバーの接続情報。パスワード/ユーザー名が不要な場合は、nullと書いてください
 redis:
   hostname: "localhost"
   port: 6379
@@ -6,10 +6,10 @@ redis:
   password: null
   ssl: false
 
-# Name of the current server. Shall be unique across the network!
-serverIdentifier: "MySuperServer1"
+# サーバーの識別子。必ず被らないように設定してください
+serverIdentifier: "Server1"
 
-# Names of the channels to subscribe on start. Can be empty as plugins can manually subscribe on their own.
-# For detailed information see our GitHub: https://github.com/ForestTechMC/ForestRedisAPI
+# プラグイン起動時に登録するチャンネル名。空にすることも可能です。APIを使用して登録することもできます
+# 詳細な情報は、GitHubをご覧ください: https://github.com/ATTSUMAN08/ForestRedisAPI
 channels:
   - "my_channel"

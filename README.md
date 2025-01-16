@@ -1,35 +1,34 @@
 # ForestRedisAPI
-![badge](https://img.shields.io/github/v/release/ATTSUMAN08/ForestRedisAPI)
-[![badge](https://jitpack.io/v/ATTSUMAN08/ForestRedisAPI.svg)](https://jitpack.io/#ATTSUMAN08/ForestRedisAPI)
-![badge](https://img.shields.io/github/downloads/ATTSUMAN08/ForestRedisAPI/total)
-![badge](https://img.shields.io/github/last-commit/ATTSUMAN08/ForestRedisAPI)
-![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord%20%7C%20velocity-lightgrey)
+![badge](https://img.shields.io/github/v/release/ATTSUMAN08/ForestRedisAPI)  
+[![badge](https://jitpack.io/v/ATTSUMAN08/ForestRedisAPI.svg)](https://jitpack.io/#ATTSUMAN08/ForestRedisAPI)  
+![badge](https://img.shields.io/github/downloads/ATTSUMAN08/ForestRedisAPI/total)  
+![badge](https://img.shields.io/github/last-commit/ATTSUMAN08/ForestRedisAPI)  
+![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord%20%7C%20velocity-lightgrey)  
 [![badge](https://img.shields.io/github/license/ATTSUMAN08/ForestRedisAPI)](https://github.com/ATTSUMAN08/ForestRedisAPI/blob/master/LICENSE.txt)
 
-Simple Spigot&Bungee Redis API based on Jedis library. ForestRedisAPI allows developers to comfortably maintain
-communication between servers using simple API calls and Events. **Supports both BungeeCord and Spigot servers.**
+Jedisライブラリに基づいたシンプルなSpigot&Bungee用Redis APIです。ForestRedisAPIは、開発者が簡単なAPI呼び出しやイベントを使用して、サーバー間の通信を快適に維持することを可能にします。**BungeeCordおよびSpigotサーバーの両方をサポートしています。**
 
-## Table of contents
+## 目次
 
-* [Getting started](#getting-started)
-* [Subscribing the channel](#subscribing-the-channel)
-* [Publishing messages / objects](#publishing-messages--objects)
-* [Events & incoming messages](#events--incoming-messages)
-* [Standalone usage](#standalone-usage)
-* [License](#license)
+* [開始手順](#開始手順)
+* [チャンネルの購読](#チャンネルの購読)
+* [メッセージ/オブジェクトの送信](#メッセージオブジェクトの送信)
+* [イベントと受信メッセージ](#イベントと受信メッセージ)
+* [単独での使用](#単独での使用)
+* [ライセンス](#ライセンス)
 
-## Getting started
+## 開始手順
 
-Make sure the server has ForestRedisAPI plugin installed. Otherwise, look at **[Standalone Usage](#standalone-usage)**.
+サーバーにForestRedisAPIプラグインがインストールされていることを確認してください。それ以外の場合は、**[単独での使用](#単独での使用)**を参照してください。
 
-### Add ForestRedisAPI to your project 
+### ForestRedisAPIをプロジェクトに追加する
 
 [![badge](https://jitpack.io/v/ATTSUMAN08/ForestRedisAPI.svg)](https://jitpack.io/#ForestTechMC/ForestRedisAPI)
 
-First, you need to setup the dependency on the ForestRedisAPI. Replace **VERSION** with the version of the release.
+まず、ForestRedisAPIの依存関係を設定する必要があります。**VERSION**をリリースバージョンに置き換えてください。
 
 <details>
-    <summary>Maven</summary>
+    <summary>Mavenの場合</summary>
 
 ```xml
 <repositories>
@@ -51,7 +50,7 @@ First, you need to setup the dependency on the ForestRedisAPI. Replace **VERSION
 </details>
 
 <details>
-    <summary>Gradle</summary>
+    <summary>Gradleの場合</summary>
 
 ```gradle
 allprojects {
@@ -67,18 +66,17 @@ dependencies {
 ```
 </details>
 
-### Plugin configuration
+### プラグイン設定
 
-You need to (soft)depend on ForestRedisAPI in order to work properly. Choose depend(s) for mandatory usage of the
-ForestRedisAPI or softdepend(s) for optional usage.
+ForestRedisAPIを適切に機能させるには、プラグインに(ソフト)依存する必要があります。ForestRedisAPIの必須依存関係を設定するか、オプションで使用するためにソフト依存関係を設定してください。
 
 <details>
     <summary>plugin.yml (Spigot)</summary>
 
 ```yaml
-# Required dependency
+# 必須依存関係
 depend: [ForestRedisAPI]
-# Optional dependency
+# オプション依存関係
 softdepend: [ForestRedisAPI]
 ```
 
@@ -88,50 +86,48 @@ softdepend: [ForestRedisAPI]
     <summary>bungee.yml (BungeeCord)</summary>
 
 ```yaml
-# Required dependency
+# 必須依存関係
 depends: [ForestRedisAPI]
-# Optional dependency
+# オプション依存関係
 softDepends: [ForestRedisAPI]
 ```
 
 </details>
 
-## Subscribing the channel
+## チャンネルの購読
 
-To receive data from Redis server, you need to subscribe selected channels. You can do it simply just by calling:
+Redisサーバーからデータを受信するには、選択したチャンネルを購読する必要があります。以下のように簡単に呼び出すことができます。
 
 ```java
-// You can check if the channel is subscribed or not
+// チャンネルが購読済みかどうかを確認できます
 if(RedisManager.getAPI().isSubscribed("MyChannel")){
-        this.log().warning("Channel 'MyChannel' is already subscribed!");
+        this.log().warning("チャンネル 'MyChannel' はすでに購読されています！");
         return;
 }
 
-// You can subscribe as many channels as you want. 
-// Already subscribed channels will be skipped.
+// 必要なだけ多くのチャンネルを購読できます。
+// すでに購読済みのチャンネルはスキップされます。
 RedisManager.getAPI().subscribe("MyChannel1","MyChannel2","MyChannel3");
 ```
 
-## Publishing messages / objects
+## メッセージ/オブジェクトの送信
 
-You can easily publish messages and objects to Redis server. It is not required to subscribe channel you want to send
-data in.
+Redisサーバーにメッセージやオブジェクトを簡単に送信できます。送信先チャンネルを購読する必要はありません。
 
 ```java
-// For simple messages in String format use #publishMessage method.
-RedisManager.getAPI().publishMessage("MyChannel1","Hello, how are you?");
+// String形式の単純なメッセージを送信するには、#publishMessageメソッドを使用します。
+RedisManager.getAPI().publishMessage("MyChannel1","こんにちは、お元気ですか？");
 
-// You can also publish any object. They'll be serialized using JSON.
+// 任意のオブジェクトも送信できます。それらはJSONを使用してシリアライズされます。
 RedisManager.getAPI().publishObject("MyChannel1",new MyObject());
 ```
 
-## Events & Incoming messages
+## イベントと受信メッセージ
 
-Using ForestRedisAPI you can retrieve data from Redis using bukkit's (bungee's) Listeners. **But make sure the correct
-Event is chosen as the names are same for Bungee and Spigot!**
+ForestRedisAPIを使用すると、BukkitやBungeeのリスナーを使用してRedisからデータを取得できます。**ただし、BungeeとSpigotではイベント名が同じなので、正しいイベントを選択してください！**
 
 ```java
-// Use bungee event import for BungeeCord!!!
+// BungeeCordの場合はbungeeイベントをインポートしてください！！！
 
 import cz.foresttech.forestredis.spigot.events.RedisMessageReceivedEvent;
 
@@ -140,24 +136,24 @@ public class MyListener implements Listener {
     @EventHandler
     public void onRedisMessageReceived(RedisMessageReceivedEvent event) {
 
-        // Whether the message was sent by this server or not.
-        // Uses the serverIdentifier from ForestRedisAPI config.yml
+        // メッセージがこのサーバーから送信されたかどうか。
+        // ForestRedisAPIのconfig.ymlのserverIdentifierを使用します。
         boolean isSelfMessage = event.isSelfSender();
 
-        // Name of the channel. Must be subscribed first.
+        // チャンネル名。事前に購読する必要があります。
         String channel = event.getChannel();
 
-        // Identifier of the sender server.
+        // 送信元サーバーの識別子。
         String senderServerId = event.getSenderIdentifier();
         
-        // Date when the message was sent
+        // メッセージが送信された日時
         long timestamp = event.getTimeStamp();
 
-        // Text of the message received.
+        // 受信したメッセージのテキスト。
         String messageText = event.getMessage();
 
-        // Parses any object from JSON. Can be used instead of #getMessage()
-        // Returns 'null' if it couldn't be parsed.
+        // JSONから任意のオブジェクトを解析します。#getMessage()の代わりに使用できます。
+        // 解析できない場合は'null'を返します。
         MyObject myObject = event.getMessageObject(MyObject.class);
 
     }
@@ -165,15 +161,14 @@ public class MyListener implements Listener {
 }
 ```
 
-## Standalone usage
+## 単独での使用
 
-You can use the ForestRedisAPI as a standalone library. Then you need to initialize RedisManager and provide him with
-required data. 
+ForestRedisAPIを単独のライブラリとして使用できます。その場合、RedisManagerを初期化し、必要なデータを提供する必要があります。
 
-This approach however **IS NOT RECOMMENDED** unless you know what you're doing!
+ただし、このアプローチは**十分な理解がない限り推奨されません！**
 
 <details>
-    <summary>Example plugin main class</summary>
+    <summary>プラグインのメインクラスの例</summary>
 
 ```java
 import cz.foresttech.forestredis.shared.RedisManager;
@@ -193,7 +188,7 @@ public class MyExamplePlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         //...
-        // Close the RedisManager
+        // RedisManagerを閉じます
         if (redisManager != null) {
             redisManager.close();
         }
@@ -201,35 +196,37 @@ public class MyExamplePlugin extends JavaPlugin {
     }
 
     public void loadRedis() {
-        // Construct RedisConfiguration object
+        // RedisConfigurationオブジェクトを作成します
         RedisConfiguration redisConfiguration = new RedisConfiguration(
-                "localhost", //hostname
-                6379, //port
-                null, //username (null if not any)
-                null, //password (null if not any)
-                false //ssl
+                "localhost", //ホスト名
+                6379, //ポート
+                null, //ユーザー名（存在しない場合はnull）
+                null, //パスワード（存在しない場合はnull）
+                false //SSL
         );
 
-        // Initialize RedisManager instance (singleton)
-        // Since init, use RedisManager#getAPI() to obtain the instance
+        // RedisManagerインスタンス（シングルトン）を初期化します
+        // 初期化後は、RedisManager#getAPI()を使用してインスタンスを取得します
         redisManager = new RedisManager(this, "MyServer", redisConfiguration);
         
-        // Now setup the connection
-        redisManager.setup(/*channels*/);
+        // 接続を設定します
+        redisManager.setup(/*チャンネル*/);
 
-        // Now you can use #getAPI() call to get singleton instance
+        // #getAPI()呼び出しを使用してシングルトンインスタンスを取得できます
         redisManager.subscribe("MyChannel1");
     }
 
     public void reloadRedis() {
-        // Just call reload function on the RedisManager object.
-        // If you set something to "null", the already existing values are used.
-        // In this case, the redis configuration is kept.
+        // RedisManagerオブジェクトでリロード関数を呼び出します。
+        // "null"に設定した場合、既存の値が使用されます。
+        // この場合、Redisの設定は保持されます。
         redisManager.reload("MyNewServerName", null, true);
     }
 }
 ```
 </details>
 
-## License
-ForestRedisAPI is licensed under the permissive MIT license. Please see [`LICENSE.txt`](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt) for more information.
+## ライセンス
+ForestRedisAPIはMITライセンスの下でライセンスされています。詳細は[`LICENSE.txt`](https://github.com/ForestTechMC/ForestRedisAPI/blob/master/LICENSE.txt)をご覧ください。
+
+---
