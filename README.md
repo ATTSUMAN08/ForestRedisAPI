@@ -6,7 +6,7 @@
 ![badge](https://img.shields.io/badge/platform-spigot%20%7C%20bungeecord%20%7C%20velocity-lightgrey)
 [![badge](https://img.shields.io/github/license/ATTSUMAN08/ForestRedisAPI)](https://github.com/ATTSUMAN08/ForestRedisAPI/blob/master/LICENSE.txt)
 
-Jedisライブラリに基づいたシンプルなSpigot&Bungee用Redis APIです。ForestRedisAPIは、開発者が簡単なAPI呼び出しやイベントを使用して、サーバー間の通信を快適に維持することを可能にします。**BungeeCord、Paper、Velocityサーバーをサポートしています。**
+Jedisライブラリに基づいたシンプルなSpigot&Bungee用Redis APIです。ForestRedisAPIは、開発者が簡単なAPI呼び出しやイベントを使用して、サーバー間の通信を快適に維持することを可能にします。**BungeeCord、PaperおよびVelocityサーバーをサポートしています。**
 
 ## 目次
 
