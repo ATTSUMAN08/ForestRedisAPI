@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 /**
- * Implementation of {@link IConfigurationAdapter} for Bungee version
+ * Bungeeバージョンの{@link IConfigurationAdapter}の実装
  */
 public class BungeeConfigAdapter implements IConfigurationAdapter {
 
@@ -22,9 +22,9 @@ public class BungeeConfigAdapter implements IConfigurationAdapter {
     private Configuration configuration;
 
     /**
-     * Constructs the instance of adapter.
+     * アダプタのインスタンスを構築します。
      *
-     * @param plugin {@link Plugin} instance
+     * @param plugin {@link Plugin}インスタンス
      */
     public BungeeConfigAdapter(Plugin plugin) {
         this.plugin = plugin;
@@ -44,7 +44,7 @@ public class BungeeConfigAdapter implements IConfigurationAdapter {
             try (InputStream in = plugin.getResourceAsStream(fileName + ".yml")) {
                 Files.copy(in, file.toPath());
             } catch (IOException e) {
-                plugin.getLogger().warning("Cannot create config.yml! This proxy won't process any Redis communication!");
+                plugin.getLogger().warning("config.ymlを作成できません！このプロキシはRedis通信を処理しません！");
                 return;
             }
             loadConfiguration();
@@ -64,7 +64,7 @@ public class BungeeConfigAdapter implements IConfigurationAdapter {
                     .getProvider(YamlConfiguration.class)
                     .load(new File(plugin.getDataFolder(), fileName + ".yml"));
         } catch (IOException e) {
-            plugin.getLogger().warning("Cannot load config.yml! This proxy won't process any Redis communication!");
+            plugin.getLogger().warning("config.ymlを読み込めません！このプロキシはRedis通信を処理しません！");
             configuration = null;
         }
     }

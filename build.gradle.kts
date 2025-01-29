@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.foresttech"
-version = "1.3.7"
+version = "1.3.9"
 
 repositories {
     mavenCentral()
@@ -43,7 +43,7 @@ tasks.withType<JavaCompile> {
 
 tasks.shadowJar {
     archiveClassifier.set("")
-    relocate("redis.clients", "cz.foresttech.forestredis.shade.jedis")
+    relocate("redis.clients.jedis", "cz.foresttech.forestredis.shade.jedis")
     relocate("com.google.gson", "cz.foresttech.forestredis.shade.gson")
     relocate("org.yaml.snakeyaml", "cz.foresttech.forestredis.shade.snakeyaml")
 }

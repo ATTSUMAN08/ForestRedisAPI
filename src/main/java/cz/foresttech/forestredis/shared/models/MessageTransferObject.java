@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * DTO object used for sending data across network. Supports
- * custom object serialization using {@link Gson}.
+ * ネットワーク全体でデータを送信するために使用されるDTOオブジェクト。
+ * {@link Gson}を使用したカスタムオブジェクトのシリアル化をサポートします。
  */
 public class MessageTransferObject {
 
@@ -14,7 +14,7 @@ public class MessageTransferObject {
     private long timestamp;
 
     /**
-     * Empty constructor in case of using setters to add data later
+     * データを後で追加するためにセッターを使用する場合の空のコンストラクタ
      */
     public MessageTransferObject() {
     }
@@ -22,11 +22,11 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Constructs the instance with provided parameters
+     * 提供されたパラメータでインスタンスを構築します
      *
-     * @param senderIdentifier Identifier of sending server
-     * @param message          Message content
-     * @param timestamp        TimeStamp of the message
+     * @param senderIdentifier 送信サーバーの識別子
+     * @param message          メッセージの内容
+     * @param timestamp        メッセージのタイムスタンプ
      */
     public MessageTransferObject(String senderIdentifier, String message, long timestamp) {
         this.senderIdentifier = senderIdentifier;
@@ -37,9 +37,9 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Converts current data to JSON using {@link Gson}
+     * 現在のデータを{@link Gson}を使用してJSONに変換します
      *
-     * @return Object serialized to JSON String
+     * @return JSON文字列にシリアル化されたオブジェクト
      */
     public String toJson() {
         try {
@@ -53,10 +53,10 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains {@link MessageTransferObject} from provided JSON String.
+     * 提供されたJSON文字列から{@link MessageTransferObject}を取得します。
      *
-     * @param json Serialized {@link MessageTransferObject} in JSON String
-     * @return Deserialized {@link MessageTransferObject}
+     * @param json JSON文字列でシリアル化された{@link MessageTransferObject}
+     * @return デシリアライズされた{@link MessageTransferObject}
      */
     public static MessageTransferObject fromJson(String json) {
         try {
@@ -70,12 +70,12 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Wraps the given object to {@link MessageTransferObject} object.
+     * 指定されたオブジェクトを{@link MessageTransferObject}オブジェクトにラップします。
      *
-     * @param senderIdentifier Identifier of the sending server
-     * @param objectToWrap     Object which shall be wrapped
-     * @param timestamp        TimeStamp of the message
-     * @return Instance of {@link MessageTransferObject} containing serialized object from input
+     * @param senderIdentifier 送信サーバーの識別子
+     * @param objectToWrap     ラップするオブジ���クト
+     * @param timestamp        メッセージのタイムスタンプ
+     * @return 入力からシリアル化されたオブジェクトを含む{@link MessageTransferObject}のインスタンス
      */
     public static MessageTransferObject wrap(String senderIdentifier, Object objectToWrap, long timestamp) {
         Gson gson = new GsonBuilder().create();
@@ -87,11 +87,11 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Parses the message string to provided object type.
+     * メッセージ文字列を指定されたオブジェクトタイプに解析します。
      *
-     * @param objectType Class of the object
-     * @param <T>        Type of the object
-     * @return Parsed object or null if object cannot be parsed
+     * @param objectType オブジェクトのクラス
+     * @param <T>        オブジェクトのタイプ
+     * @return 解析されたオブジェクト、またはオブジェクトを解析できない場合はnull
      */
     public <T> T parseMessageObject(Class<T> objectType) {
         try {
@@ -105,9 +105,9 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains the timestamp of the message
+     * メッセージのタイムスタンプを取得します
      *
-     * @return Date when message has been sent
+     * @return メッセージが送信された日時
      */
     public long getTimestamp() {
         return timestamp;
@@ -116,9 +116,9 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Changes the timestamp of the message
+     * メッセージのタイムスタンプを変更します
      *
-     * @param timestamp New date when the message has been sent
+     * @param timestamp メッセージが送信された新しい日時
      */
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
@@ -127,9 +127,9 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains the server sender identifier
+     * サーバー送信者の識別子を取得します
      *
-     * @return  Server identifier of the sender
+     * @return 送信者のサーバー識別子
      */
     public String getSenderIdentifier() {
         return senderIdentifier;
@@ -138,9 +138,9 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Obtains the content of the transferred message
+     * 転送されたメッセージの内容を取得します
      *
-     * @return  Content of the message
+     * @return メッセージの内容
      */
     public String getMessage() {
         return message;
@@ -149,9 +149,9 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Changes the server sender identifier
+     * サーバー送信者の識別子を変更します
      *
-     * @param senderIdentifier  New server sender identifier
+     * @param senderIdentifier 新しいサーバー送信者の識別子
      */
     public void setSenderIdentifier(String senderIdentifier) {
         this.senderIdentifier = senderIdentifier;
@@ -160,9 +160,9 @@ public class MessageTransferObject {
     /*----------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Updates the content of the transferred message
+     * 転送されたメッセージの内容を更新します
      *
-     * @param message   New transferred message content
+     * @param message 新しい転送されたメッセージの内容
      */
     public void setMessage(String message) {
         this.message = message;
