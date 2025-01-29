@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,7 +76,8 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
 
     @Override
     public String getString(String path, String def) {
-        String result = configuration.node(path).getString();
+        List<String> split = Arrays.stream(path.split("\\.")).toList();
+        String result = configuration.node(split).getString();
         if (result == null) {
             return def;
         }
@@ -84,18 +86,21 @@ public class VelocityConfigAdapter implements IConfigurationAdapter {
 
     @Override
     public int getInt(String path, int def) {
-        return this.configuration.node(path).getInt(def);
+        List<String> split = Arrays.stream(path.split("\\.")).toList();
+        return this.configuration.node(split).getInt(def);
     }
 
     @Override
     public boolean getBoolean(String path, boolean def) {
-        return this.configuration.node(path).getBoolean(def);
+        List<String> split = Arrays.stream(path.split("\\.")).toList();
+        return this.configuration.node(split).getBoolean(def);
     }
 
     @Override
     public List<String> getStringList(String path) {
+        List<String> split = Arrays.stream(path.split("\\.")).toList();
         try {
-            return this.configuration.node(path).getList(String.class);
+            return this.configuration.node(split).getList(String.class);
         } catch (SerializationException e) {
             return new ArrayList<>();
         }
