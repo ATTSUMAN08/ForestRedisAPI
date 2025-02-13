@@ -5,6 +5,8 @@ import cz.foresttech.forestredis.shared.adapter.ILoggerAdapter;
 import cz.foresttech.forestredis.shared.models.MessageTransferObject;
 import cz.foresttech.forestredis.shared.models.RedisConfiguration;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 /**
@@ -71,10 +73,15 @@ public interface IForestRedisPlugin {
         this.logger().info("config.ymlが正常に読み込まれました！");
 
         // サーバー識別子を読み込む
-        String serverIdentifier = configAdapter.getString("serverIdentifier", null);
-        if (serverIdentifier == null) {
-            serverIdentifier = "MySuperServer1";
-            this.logger().info("config.ymlから'serverIdentifier'を読み込めません！'MySuperServer1'を使用します！");
+        String serverIdentifier = configAdapter.getString("serverIdentifier", "");
+        if (serverIdentifier.isEmpty()) {
+            this.logger().info("serverIdentifierが設定されていません。サーバーのホスト名を使用します");
+            try {
+                serverIdentifier = InetAddress.getLocalHost().getHostName();
+            } catch (UnknownHostException e) {
+                serverIdentifier = "MyServer1";
+                this.logger().warning("ホスト名を取得できませんでした！MyServer1を使用します！");
+            }
         }
 
         // RedisConfigurationを構築する
