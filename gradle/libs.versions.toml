@@ -3,7 +3,7 @@ shadow = "9.0.0-beta4"
 
 paperApi = "1.18.2-R0.1-SNAPSHOT"
 velocityApi = "3.4.0-SNAPSHOT"
-bungeeApi = "1.21-R0.1-SNAPSHOT"
+bungeeApi = "1.21-R0.4"
 jedis = "5.2.0"
 gson = "2.11.0"
 snakeYaml = "2.3"
